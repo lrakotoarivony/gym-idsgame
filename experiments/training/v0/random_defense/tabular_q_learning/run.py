@@ -113,6 +113,7 @@ def run_experiment(configpath: str, random_seed: int, noconfig: bool):
         if not os.path.exists(args.configpath):
             write_default_config()
         config = util.read_config(args.configpath)
+        config = default_config()
     else:
         config = default_config()
     time_str = str(time.time())

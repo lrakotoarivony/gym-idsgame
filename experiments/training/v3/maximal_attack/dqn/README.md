@@ -57,7 +57,7 @@ Example configuration in `config.json`:
     "initial_state_path": null,
     "logger": null,
     "mode": 0,
-    "output_dir": "/media/kim/HDD/workspace/gym-idsgame/experiments/training/v3/maximal_attack/dqn",
+    "output_dir": "/home/kali/Documents/projet_3A/gym-idsgame/experiments/training/v3/maximal_attack/dqn",
     "py/object": "gym_idsgame.config.client_config.ClientConfig",
     "q_agent_config": {
         "alpha": 1e-05,
@@ -83,7 +83,7 @@ Example configuration in `config.json`:
             "replay_start_size": 1000,
             "target_network_update_freq": 1000,
             "tensorboard": true,
-            "tensorboard_dir": "/media/kim/HDD/workspace/gym-idsgame/experiments/training/v3/maximal_attack/dqn/results/tensorboard"
+            "tensorboard_dir": "/home/kali/Documents/projet_3A/gym-idsgame/experiments/training/v3/maximal_attack/dqn/results/tensorboard"
         },
         "epsilon": 1,
         "epsilon_decay": 0.999,
@@ -93,7 +93,7 @@ Example configuration in `config.json`:
         "eval_render": false,
         "eval_sleep": 0.9,
         "gamma": 0.99,
-        "gif_dir": "/media/kim/HDD/workspace/gym-idsgame/experiments/training/v3/maximal_attack/dqn/results/gifs",
+        "gif_dir": "/home/kali/Documents/projet_3A/gym-idsgame/experiments/training/v3/maximal_attack/dqn/results/gifs",
         "gifs": true,
         "logger": null,
         "min_epsilon": 0.05,
@@ -101,10 +101,10 @@ Example configuration in `config.json`:
         "py/object": "gym_idsgame.agents.q_learning.q_agent_config.QAgentConfig",
         "random_seed": 0,
         "render": false,
-        "save_dir": "/media/kim/HDD/workspace/gym-idsgame/experiments/training/v3/maximal_attack/dqn/results/data",
+        "save_dir": "/home/kali/Documents/projet_3A/gym-idsgame/experiments/training/v3/maximal_attack/dqn/results/data",
         "train_log_frequency": 100,
         "video": true,
-        "video_dir": "/media/kim/HDD/workspace/gym-idsgame/experiments/training/v3/maximal_attack/dqn/results/videos",
+        "video_dir": "/home/kali/Documents/projet_3A/gym-idsgame/experiments/training/v3/maximal_attack/dqn/results/videos",
         "video_fps": 5,
         "video_frequency": 101
     },
