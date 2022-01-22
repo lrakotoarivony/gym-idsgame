@@ -3,6 +3,14 @@ Register OpenAI Envs
 """
 from gym.envs.registration import register
 
+# -------- Cyber Version ------------
+
+register(
+    id='idsgame-cyber-v0',
+    entry_point='gym_idsgame.envs:IdsGameCyberEnv',
+    kwargs={'idsgame_config': None, 'save_dir': None, 'initial_state_path': None}
+)
+
 # -------- Version 0 ------------
 
 # [AttackerEnv] 1 layer, 1 server per layer, 10 attack-defense-values, random defender

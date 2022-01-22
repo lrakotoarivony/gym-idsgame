@@ -1,5 +1,6 @@
 .idea
 rockyou.txt
+experiments/
 
 *.log
 *.csv

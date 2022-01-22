@@ -1,12 +1,12 @@
 {
     "attacker_type": 0,
     "defender_type": 0,
-    "env_name": "idsgame-v5",
+    "env_name": "idsgame-cyber-v0",
     "idsgame_config": null,
     "initial_state_path": null,
     "logger": null,
     "mode": 5,
-    "output_dir": "/home/kim/storage/workspace/gym-idsgame/experiments/training/v5/two_agents/tabular_q_learning",
+    "output_dir": "/home/kali/Documents/projet_3A/gym-idsgame/experiments/training/v5/two_agents/tabular_q_learning",
     "py/object": "gym_idsgame.config.client_config.ClientConfig",
     "q_agent_config": {
         "alpha": 0.05,

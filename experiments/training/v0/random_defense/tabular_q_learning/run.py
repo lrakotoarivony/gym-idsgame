@@ -6,9 +6,15 @@ from gym_idsgame.config.runner_mode import RunnerMode
 from gym_idsgame.agents.training_agents.q_learning.q_agent_config import QAgentConfig
 from gym_idsgame.agents.dao.agent_type import AgentType
 from gym_idsgame.config.client_config import ClientConfig
+from gym_idsgame.envs.dao.idsgame_config import IdsGameConfig
+from gym_idsgame.envs.dao.game_config import GameConfig
+from gym_idsgame.envs.dao.network_config import NetworkConfig
 from gym_idsgame.runnner import Runner
+from gym_idsgame.agents.bot_agents.random_attack_bot_agent import RandomAttackBotAgent
+from gym_idsgame.agents.bot_agents.random_defense_bot_agent import RandomDefenseBotAgent
 from experiments.util import plotting_util, util
-
+from gym_idsgame.agents.training_agents.q_learning.tabular_q_learning.tabular_q_agent import TabularQAgent
+import gym
 
 def get_script_path():
     """
@@ -43,12 +49,31 @@ def default_config() -> ClientConfig:
                                   eval_render=False, gifs=True, gif_dir=default_output_dir() + "/results/gifs",
                                   eval_frequency=1000, attacker=True, defender=False, video_frequency=101,
                                   save_dir=default_output_dir() + "/results/data")
+
+
+    
     env_name = "idsgame-random_defense-v0"
+    num_rows = 3
+    num_cols = 3
+    network_config = NetworkConfig(num_rows, num_cols)
+    assert network_config.graph_layout.shape == (num_rows, num_cols)
+    #network_config = NetworkConfig(num_rows=2, num_cols=3)
+    game_config = GameConfig(initial_state_path= None, network_config = network_config)
+
+    defender_agent = RandomDefenseBotAgent(game_config)
+
+    idsgame_config = IdsGameConfig(game_config = game_config,attacker_agent=q_agent_config,defender_agent=defender_agent)
     client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,
                                  mode=RunnerMode.TRAIN_ATTACKER.value,
-                                 q_agent_config=q_agent_config, output_dir=default_output_dir(),
+                                 q_agent_config=q_agent_config, output_dir=default_output_dir(),idsgame_config = idsgame_config,
                                  title="TrainingQAgent vs RandomDefender", run_many=True, random_seeds=[0, 999, 299,
                                                                                                         399, 499])
+    '''client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,mode=RunnerMode.TRAIN_ATTACKER.value,
+                                 q_agent_config=q_agent_config, output_dir=default_output_dir(),
+                                 title="TrainingQAgent vs RandomDefender", run_many=True, random_seeds=[0, 999, 299,
+                                                                                                        399, 499])'''
+                                                                                                    
+                                    
     return client_config
 
 
@@ -129,7 +154,17 @@ def run_experiment(configpath: str, random_seed: int, noconfig: bool):
     config.q_agent_config.random_seed = random_seed
     config.random_seed = random_seed
     config.q_agent_config.to_csv(config.output_dir + "/results/hyperparameters/" + str(random_seed) + "/" + time_str + ".csv")
-    train_result, eval_result = Runner.run(config)
+
+    env = gym.make(config.env_name, idsgame_config = config.idsgame_config,
+                       save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
+                       initial_state_path = config.initial_state_path)
+    attacker = TabularQAgent(env, config.q_agent_config)
+    attacker.train()
+    train_result = attacker.train_result
+    eval_result = attacker.eval_result
+    #train_result, eval_result = Runner.run(config)
+
+
     train_csv_path = ""
     eval_csv_path = ""
     if len(train_result.avg_episode_steps) > 0 and len(eval_result.avg_episode_steps) > 0:

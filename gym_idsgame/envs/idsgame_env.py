@@ -797,6 +797,40 @@ class AttackDefenseEnv(IdsGameEnv, ABC):
 
 # -------- Concrete envs ------------
 
+class IdsGameCyberEnv(AttackDefenseEnv):
+    """
+    [AttackDefenseEnv] 4 layer, 5 servers per layer, 10 attack-defense-values, connected layers
+    [Initial State] Defense: 2, Attack:0, Num vulnerabilities: 1, Det: 2, Vulnerability value: 0
+    [Rewards] Sparse
+    [Version] 5
+    [Observations] partially observed
+    [Environment] Deterministic
+    [Attacker Starting Position] Start node
+    [Reconnaissance activities] disabled
+    [Reconnaissance bool features] No
+    """
+    def __init__(self, idsgame_config: IdsGameConfig = None, save_dir: str = None, initial_state_path: str = None):
+        """
+        Initialization of the environment
+
+        :param save_dir: directory to save outputs of the env
+        :param initial_state_path: path to the initial state (if none, use default)
+        :param idsgame_config: configuration of the environment (if not specified a default config is used)
+        """
+        if idsgame_config is None:
+            game_config = GameConfig(num_layers=2, num_servers_per_layer=3, num_attack_types=3, max_value=3)
+            game_config.set_initial_state(defense_val=2, attack_val=0, num_vulnerabilities_per_node=1, det_val=2,
+                                          vulnerability_val=0, num_vulnerabilities_per_layer=2)
+            game_config.network_config = NetworkConfig(game_config.num_rows, game_config.num_cols,
+                                                       connected_layers=True)
+            if initial_state_path is not None:
+                game_config.set_load_initial_state(initial_state_path)
+            idsgame_config = IdsGameConfig(game_config=game_config)
+            idsgame_config.render_config.caption = "idsgame-cyber-v0"
+        super().__init__(idsgame_config=idsgame_config, save_dir=save_dir)
+
+
+
 # -------- Version 0 ------------
 
 class IdsGameRandomDefenseV0Env(AttackerEnv):
