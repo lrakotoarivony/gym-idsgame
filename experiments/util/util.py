@@ -30,6 +30,8 @@ def create_artefact_dirs(output_dir: str, random_seed : int) -> None:
         os.makedirs(output_dir + "/results/gifs/" + str(random_seed) + "/")
     if not os.path.exists(output_dir + "/results/tensorboard/" + str(random_seed) + "/"):
         os.makedirs(output_dir + "/results/tensorboard/" + str(random_seed) + "/")
+    if not os.path.exists(output_dir + "/results/file/" + str(random_seed) + "/"):
+        os.makedirs(output_dir + "/results/file/" + str(random_seed) + "/")
 
 
 def setup_logger(name: str, logdir: str, time_str = None):
