@@ -362,9 +362,9 @@ class GameState():
         """
         if network_config.node_list[attacked_node_id] == NodeType.START:
             return True
-        if attack_type == 1:
-            return simulate_attack_stego(self.attack_values[attacked_node_id][attack_type])
         if attack_type == 0:
+            return simulate_attack_stego(self.attack_values[attacked_node_id][attack_type])
+        if attack_type == 1:
             return simulate_attack_hash(self.attack_values[attacked_node_id][attack_type],self.defense_values[attacked_node_id][attack_type])
         if attack_type == 2:
             return simulate_attack_password(self.attack_values[attacked_node_id][attack_type],self.defense_values[attacked_node_id][attack_type])
