@@ -59,3 +59,8 @@ def attack_stega(img_source,strength):
             if 'flag' in result:
                 guess = re.split('{|}', result)[1]
     return guess
+
+def simulate_attack_stego(attack,img_source = "/home/kali/Documents/projet_3A/gym-idsgame/gym_idsgame/cyber/ressources/test.png",img_dest = "/home/kali/Documents/projet_3A/gym-idsgame/gym_idsgame/cyber/ressources/test_secret.png",password = "password"):
+    defend_stega(img_source,img_dest,password)
+    guess = attack_stega(img_dest,attack)
+    return guess == password

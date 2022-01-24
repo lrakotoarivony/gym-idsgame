@@ -43,3 +43,7 @@ def defend_password(strength):
     return password
 
 
+def simulate_attack_password(attack, defend,wordlist = "/home/kali/Documents/projet_3A/gym-idsgame/gym_idsgame/cyber/ressources/ech.txt"):
+    password = defend_password(defend)
+    guess = attack_password(password,attack,wordlist)
+    return guess != 'password not found'

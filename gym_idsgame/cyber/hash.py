@@ -860,3 +860,11 @@ def attack_hash(strength,wordlist='short_ech.txt',file = 'password.txt'):
     if '0 password hashes cracked' not in res:
         guess = res.split(':')[1].split('\n')[0]
     return guess
+
+def simulate_attack_hash(attack,defend,wordlist='/home/kali/Documents/projet_3A/gym-idsgame/gym_idsgame/cyber/ressources/short_ech.txt',outfile = '/home/kali/Documents/projet_3A/gym-idsgame/gym_idsgame/cyber/ressources/password.txt'):
+    with open(wordlist) as f:
+        alist = [line.rstrip() for line in f]
+    password = choice(alist)
+    answer, _ = defend_hash(password,defend,outfile = outfile)
+    guess = attack_hash(attack,wordlist = wordlist,file = outfile)
+    return answer == guess
