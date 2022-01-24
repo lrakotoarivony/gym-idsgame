@@ -839,24 +839,24 @@ def attack_hash(strength,wordlist='short_ech.txt',file = 'password.txt'):
     list_hashing = ['raw-md5','raw-sha256']
     if strength == 0:
         hash = choice(list_hashing)
-        subprocess.run(['john','--wordlist='+wordlist,'--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
-        res = subprocess.run(['john', '--show','--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        subprocess.run(['john','--verbosity=1','--encoding=UTF-8','--pot=~/.john/john0.pot','--wordlist='+wordlist,'--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        res = subprocess.run(['john','--verbosity=1','--encoding=UTF-8','--pot=~/.john/john0.pot', '--show','--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
     if strength == 1:
         with open(file) as f:
             lines = f.readlines()
             for mode in hashID.identifyHash(lines[0]):
                 if mode.john in list_hashing:
                     hash = mode.john
-        subprocess.run(['john','--wordlist='+wordlist,'--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
-        res = subprocess.run(['john', '--show','--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        subprocess.run(['john','--verbosity=1''--encoding=UTF-8','--pot=~/.john/john1.pot','--wordlist='+wordlist,'--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        res = subprocess.run(['john','--verbosity=1''--encoding=UTF-8','--pot=~/.john/john1.pot', '--show','--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
     if strength >= 2:
         with open(file) as f:
             lines = f.readlines()
             for mode in hashID.identifyHash(lines[0]):
                 if mode.john in list_hashing:
                     hash = mode.john
-        subprocess.run(['john','--rules=Jumbo','--wordlist='+wordlist,'--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
-        res = subprocess.run(['john', '--show','--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        subprocess.run(['john','--verbosity=1','--encoding=UTF-8','--pot=~/.john/john2.pot','--rules=Jumbo','--wordlist='+wordlist,'--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        res = subprocess.run(['john','--verbosity=1','--encoding=UTF-8','--pot=~/.john/john2.pot', '--show','--format='+hash, file], stdout=subprocess.PIPE).stdout.decode('utf-8')
     if '0 password hashes cracked' not in res:
         guess = res.split(':')[1].split('\n')[0]
     return guess

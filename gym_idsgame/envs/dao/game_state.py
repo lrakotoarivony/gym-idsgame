@@ -9,6 +9,10 @@ from gym_idsgame.envs.constants import constants
 from gym_idsgame.envs.dao.attack_defense_event import AttackDefenseEvent
 from gym_idsgame.envs.dao.network_config import NetworkConfig
 
+from gym_idsgame.cyber.hash import simulate_attack_hash
+from gym_idsgame.cyber.password import simulate_attack_password
+from gym_idsgame.cyber.stega import simulate_attack_stego
+
 class GameState():
     """
     DTO representing the state of the game
@@ -358,7 +362,13 @@ class GameState():
         """
         if network_config.node_list[attacked_node_id] == NodeType.START:
             return True
-        return self.attack_values[attacked_node_id][attack_type] > self.defense_values[attacked_node_id][attack_type]
+        if attack_type == 1:
+            return simulate_attack_stego(self.attack_values[attacked_node_id][attack_type])
+        if attack_type == 0:
+            return simulate_attack_hash(self.attack_values[attacked_node_id][attack_type],self.defense_values[attacked_node_id][attack_type])
+        if attack_type == 2:
+            return simulate_attack_password(self.attack_values[attacked_node_id][attack_type],self.defense_values[attacked_node_id][attack_type])
+        #return self.attack_values[attacked_node_id][attack_type] > self.defense_values[attacked_node_id][attack_type]
 
     def simulate_detection(self, node_id: int, reconnaissance: bool, reconnaissance_detection_factor : float = 1) -> bool:
         """
