@@ -13,14 +13,30 @@ Pour l'instant seul les méthodes de chiffrement md5 et sha-256 sont implément�
 
 Le défenseur a trois niveaux de puissance. Il va utiliser la fonction defend_hash pour cacher un mdp chiffré dans le fichier outfile.  
 
-* Au niveau 1 : Le défenseur choisit un chiffrement et chiffre le mdp
-* Au niveau 2 : Le défenseur va modifier le mdp avec la méthode Jumbo et ensuite le chiffrer
-* Au niveau 3 : Le défenseur va modifier le mdp avec la méthode Jumbo amélioré et ensuite le chiffrer
+* Au niveau 0 : Le défenseur choisit un chiffrement et chiffre le mdp
+* Au niveau 1 : Le défenseur va modifier le mdp avec la méthode Jumbo et ensuite le chiffrer
+* Au niveau 2 : Le défenseur va modifier le mdp avec la méthode Jumbo amélioré et ensuite le chiffrer
 
 ## Attaque
 
 L'attaque a trois niveaux de puissance. Il va utiliser la fonction attack_hash avec une wordlist pour essayer de déchiffrer le mdp.  
 
-* Au niveau 1 : L'attaquant choisit de manière aléatoire une méthode de chiffrement pour essayer de déchiffrer le mdp
-* Au niveau 2 : L'attaquant utilise un hash identifier pour savoir quelle méthode de chiffrement utiliser
-* Au niveau 3 : L'attaquanr utilise un hash identifier ainsi que la rule Jumbo pour déchiffrer
+* Au niveau 0 : L'attaquant choisit de manière aléatoire une méthode de chiffrement pour essayer de déchiffrer le mdp
+* Au niveau 1 : L'attaquant utilise un hash identifier pour savoir quelle méthode de chiffrement utiliser
+* Au niveau 2 : L'attaquanr utilise un hash identifier ainsi que la rule Jumbo pour déchiffrer
+
+## Comparaison attaque-défense  
+
+Pourcentage de réussite de l'attaque en fonction des niveaux d'attaque et de défense
+| Défense / Attaque      |   0     |  1     |   2    |
+|---    |:-:    |:-:    |--:    |
+|  0     |  47     |  100     |  100     |
+|   1    |  0     |  0     |  100     |
+|    2   |  0     |  0     |  17     |
+
+Temps d'exécution moyen d'une attaque en fonction des niveaux d'attaque et de défense en secondes
+| Défense / Attaque      |   0     |  1     |   2    |
+|---    |:-:    |:-:    |--:    |
+|  0     |  0.11     |  0.15     |  0.13     |
+|   1    |  0.14     |  0.21     |  0.17     |
+|    2   |  0.16     |  0.23     |  0.32     |
