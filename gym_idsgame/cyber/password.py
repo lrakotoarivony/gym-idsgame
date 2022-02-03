@@ -12,12 +12,12 @@ def attack_password(real, strength,wordlist = "ressources/ech.txt"):
     if(strength == 1):
         chars = string.ascii_letters + string.digits + string.punctuation
         length = 4
-        max_count = 30000000
+        max_count = 3000000
         use_wordlist = False
     if(strength >= 2):
         chars = string.ascii_letters + string.digits + string.punctuation
         length = 4
-        max_count = 80000000
+        max_count = 8000000
         use_wordlist = True
 
     if use_wordlist:
