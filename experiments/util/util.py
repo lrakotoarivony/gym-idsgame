@@ -9,6 +9,7 @@ import time
 import argparse
 import os
 from gym_idsgame.config.client_config import ClientConfig
+import sys
 
 def create_artefact_dirs(output_dir: str, random_seed : int) -> None:
     """
@@ -46,22 +47,22 @@ def setup_logger(name: str, logdir: str, time_str = None):
     # create formatter
     formatter = logging.Formatter('%(asctime)s,%(message)s')
     # log to console
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
+    ch = logging.StreamHandler(sys.stdout)
+    ch.setLevel(logging.DEBUG)
     ch.setFormatter(formatter)
 
     logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     # log to file
     if time_str is None:
         time_str = str(time.time())
-    fh = logging.FileHandler(logdir + "/" + time_str + "_" + name + ".log", mode="w")
-    fh.setLevel(logging.INFO)
-    fh.setFormatter(formatter)
+    #fh = logging.FileHandler(logdir + "/" + time_str + "_" + name + ".log", mode="w")
+    #fh.setLevel(logging.INFO)
+    #fh.setFormatter(formatter)
 
     # add the handlers to the logger
-    logger.addHandler(fh)
-    #logger.addHandler(ch)
+    #logger.addHandler(fh)
+    logger.addHandler(ch)
     return logger
 
 def write_config_file(config: ClientConfig, path: str) -> None:

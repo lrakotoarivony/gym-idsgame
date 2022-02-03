@@ -201,6 +201,7 @@ class TabularQAgent(QAgent):
             self.anneal_epsilon()
 
         self.config.logger.info("Training Complete")
+        print("Training complete")
 
         # Final evaluation (for saving Gifs etc)
         self.eval(self.config.num_episodes, log=False)
