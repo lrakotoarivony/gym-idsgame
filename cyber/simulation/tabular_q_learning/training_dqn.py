@@ -7,7 +7,7 @@ from gym_idsgame.agents.training_agents.q_learning.q_agent_config import QAgentC
 from gym_idsgame.agents.dao.agent_type import AgentType
 from gym_idsgame.config.client_config import ClientConfig
 from gym_idsgame.runnner import Runner
-from experiments.util import plotting_util, util
+from gym_idsgame.experiments.util import plotting_util, util
 from gym_idsgame.agents.training_agents.q_learning.dqn.dqn_config import DQNConfig
 
 
