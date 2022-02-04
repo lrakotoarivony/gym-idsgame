@@ -33,7 +33,7 @@ def default_config() -> ClientConfig:
     simulation_config = SimulationConfig(render=True, sleep=0.8, video=True, log_frequency=1,
                                          video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=2,
                                          gifs=True, gif_dir=default_output_dir() + "/gifs", video_frequency = 1)
-    q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/tabular_q_learning/data/1643877768.3360705_attacker_q_table.npy",defender_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/tabular_q_learning/data/1643877768.3360705_defender_q_table.npy")
+    q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/data/1643877768.3360705_attacker_q_table.npy",defender_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/data/1643877768.3360705_defender_q_table.npy")
     env_name = "idsgame-cyber-v0"
     client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,
                                  defender_type=AgentType.TABULAR_Q_AGENT.value, mode=RunnerMode.SIMULATE.value,
