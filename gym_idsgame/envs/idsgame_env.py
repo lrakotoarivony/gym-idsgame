@@ -818,7 +818,7 @@ class IdsGameCyberEnv(AttackDefenseEnv):
         :param idsgame_config: configuration of the environment (if not specified a default config is used)
         """
         if idsgame_config is None:
-            game_config = GameConfig(num_layers=2, num_servers_per_layer=3, num_attack_types=3, max_value=3)
+            game_config = GameConfig(num_layers=2, num_servers_per_layer=3, num_attack_types=4, max_value=3)
             game_config.set_initial_state(defense_val=2, attack_val=1, num_vulnerabilities_per_node=2, det_val=2,
                                           vulnerability_val=0, num_vulnerabilities_per_layer=2)
             game_config.network_config = NetworkConfig(game_config.num_rows, game_config.num_cols,

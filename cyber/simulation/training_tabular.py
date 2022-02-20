@@ -24,14 +24,6 @@ def default_output_dir() -> str:
     return script_dir
 
 
-def default_config_path() -> str:
-    """
-    :return: the default path to configuration file
-    """
-    config_path = os.path.join(default_output_dir(), './config.json')
-    return config_path
-
-
 def default_config() -> ClientConfig:
     """
     :return: Default configuration for the experiment
@@ -53,43 +45,10 @@ def default_config() -> ClientConfig:
     return client_config
 
 
-def write_default_config(path:str = None) -> None:
-    """
-    Writes the default configuration to a json file
-
-    :param path: the path to write the configuration to
-    :return: None
-    """
-    if path is None:
-        path = default_config_path()
-    config = default_config()
-    util.write_config_file(config, path)
-
-
-def plot_csv(config: ClientConfig, eval_csv_path:str, train_csv_path: str) -> None:
-    """
-    Plot results from csv files
-
-    :param config: client config
-    :param eval_csv_path: path to the csv file with evaluation results
-    :param train_csv_path: path to the csv file with training results
-    :return: None
-    """
-    plotting_util.read_and_plot_results(train_csv_path, eval_csv_path, config.q_agent_config.train_log_frequency,
-                                        config.q_agent_config.eval_frequency, config.q_agent_config.eval_log_frequency,
-                                        config.q_agent_config.eval_episodes, config.output_dir, sim=False)
-
 
 # Program entrypoint
 if __name__ == '__main__':
-    args = util.parse_args(default_config_path())
-    if args.configpath is not None:
-        if not os.path.exists(args.configpath):
-            write_default_config()
-        #config = util.read_config(args.configpath)
-        config =default_config()
-    else:
-        config = default_config()
+    config = default_config()
     time_str = str(time.time())
     util.create_artefact_dirs(config.output_dir,0)
     logger = util.setup_logger("cyber_vs_cyber-v0", config.output_dir + "/results/logs/",time_str=time_str)
@@ -97,12 +56,6 @@ if __name__ == '__main__':
     config.q_agent_config.logger = logger
     config.q_agent_config.to_csv(config.output_dir + "/results/hyperparameters/" + time_str + ".csv")
     train_result, eval_result = Runner.run(config)
-    #if len(train_result.avg_episode_steps) > 0 and len(eval_result.avg_episode_steps) > 0:
-        #train_csv_path = config.output_dir + "/data/" + time_str + "_train" + ".csv"
-        #train_result.to_csv(train_csv_path)
-        #eval_csv_path = config.output_dir + "/data/" + time_str + "_eval" + ".csv"
-        #eval_result.to_csv(eval_csv_path)
-        #plot_csv(config, eval_csv_path, train_csv_path)
 
 
 

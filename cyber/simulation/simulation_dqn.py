@@ -23,14 +23,6 @@ def default_output_dir() -> str:
     return script_dir
 
 
-def default_config_path() -> str:
-    """
-    :return: the default path to configuration file
-    """
-    config_path = os.path.join(default_output_dir(), './config.json')
-    return config_path
-
-
 def default_config() -> ClientConfig:
     """
     :return: Default configuration for the experiment
@@ -39,7 +31,7 @@ def default_config() -> ClientConfig:
                                          video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=2,
                                          gifs=True, gif_dir=default_output_dir() + "/gifs", video_frequency = 1)
 
-    dqn_config = DQNConfig(input_dim=32, attacker_output_dim=24, defender_output_dim=32, hidden_dim=16,
+    dqn_config = DQNConfig(input_dim=40, attacker_output_dim=32, defender_output_dim=40, hidden_dim=16,
                            replay_memory_size=10000,
                            num_hidden_layers=1,
                            replay_start_size=1000, batch_size=32, target_network_update_freq=1000,
@@ -65,46 +57,10 @@ def default_config() -> ClientConfig:
     return client_config
 
 
-def write_default_config(path:str = None) -> None:
-    """
-    Writes the default configuration to a json file
-
-    :param path: the path to write the configuration to
-    :return: None
-    """
-    if path is None:
-        path = default_config_path()
-    config = default_config()
-    util.write_config_file(config, path)
-
-
-def plot_csv(config: ClientConfig, csv_path:str) -> None:
-    """
-    Plot results from csv files
-
-    :param config: client config
-    :param csv_path: path to the csv file with results
-    :return: None
-    """
-    df = plotting_util.read_data(csv_path)
-    plotting_util.plot_results(avg_attacker_episode_rewards=None, avg_episode_steps=df["avg_episode_steps"].values,
-                               epsilon_values=None, hack_probability=df["hack_probability"],
-                               attacker_cumulative_reward=df["attacker_cumulative_reward"],
-                               defender_cumulative_reward=df["defender_cumulative_reward"],
-                               log_frequency=config.simulation_config.log_frequency,
-                               output_dir=config.output_dir, eval=False, sim=True)
-
-
 # Program entrypoint
 if __name__ == '__main__':
-    args = util.parse_args(default_config_path())
-    if args.configpath is not None:
-        if not os.path.exists(args.configpath):
-            write_default_config()
-        #config = util.read_config(args.configpath)
-        config =default_config()
-    else:
-        config = default_config()
+    
+    config = default_config()
     time_str = str(time.time())
     util.create_artefact_dirs(config.output_dir,1)
     logger = util.setup_logger("idsgame-v0-dqn_vs_dqn", config.output_dir + "/results/logs/",
@@ -126,12 +82,6 @@ if __name__ == '__main__':
 
 
     agent.eval(0,log=False)
-
-    '''result = Runner.run(config)
-    if len(result.avg_episode_steps) > 0:
-        csv_path = config.output_dir + "/data/" + time_str + "_simulation" + ".csv"
-        result.to_csv(csv_path)
-        #plot_csv(config, csv_path)'''
 
 
 
