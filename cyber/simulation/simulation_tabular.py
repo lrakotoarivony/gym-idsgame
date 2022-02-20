@@ -22,16 +22,22 @@ def default_config() -> ClientConfig:
     :return: Default configuration for the experiment
     """
     simulation_config = SimulationConfig(render=True, sleep=0.8, video=True, log_frequency=1,
-                                         video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=2,
+                                         video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=10,
                                          gifs=True, gif_dir=default_output_dir() + "/gifs", video_frequency = 1)
-    q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/data/1643877768.3360705_attacker_q_table.npy",defender_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/data/1643877768.3360705_defender_q_table.npy")
+    q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/data/1645375171.6560378_attacker_q_table.npy",defender_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/data/1645375171.6560378_defender_q_table.npy")
     env_name = "idsgame-cyber-v0"
+    #AgentType.RANDOM.value
+    #AgentType.DEFEND_MINIMAL_VALUE.value
     client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,
                                  defender_type=AgentType.TABULAR_Q_AGENT.value, mode=RunnerMode.SIMULATE.value,
                                  simulation_config=simulation_config, output_dir=default_output_dir(),
                                  title="TabularQAgentAttacker vs TabularQAgentDefender",
                                  q_agent_config=q_agent_config)
-                                 #initial_state_path = default_output_dir() + "/initial_state/initial_state.pkl")
+    client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.RANDOM.value,
+                                 defender_type=AgentType.DEFEND_MINIMAL_VALUE.value, mode=RunnerMode.SIMULATE.value,
+                                 simulation_config=simulation_config, output_dir=default_output_dir(),
+                                 title="TabularQAgentAttacker vs TabularQAgentDefender",
+                                 q_agent_config=q_agent_config)
     return client_config
 
 
@@ -46,9 +52,8 @@ if __name__ == '__main__':
     config.simulation_config.logger = logger
     config.simulation_config.to_csv(config.output_dir + "/results/hyperparameters/" + time_str + ".csv")
     result = Runner.run(config)
-    if len(result.avg_episode_steps) > 0:
-        csv_path = config.output_dir + "/data/" + time_str + "_simulation" + ".csv"
-        result.to_csv(csv_path)
+    print(result.attacker_wins)
+    print(f'Number of attack victory in 10 episodes: {result.attacker_wins[-1]}')
 
 
 

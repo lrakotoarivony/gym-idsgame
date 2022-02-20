@@ -6,7 +6,7 @@ from gym_idsgame.agents.training_agents.q_learning.q_agent_config import QAgentC
 from gym_idsgame.agents.dao.agent_type import AgentType
 from gym_idsgame.config.client_config import ClientConfig
 from gym_idsgame.runnner import Runner
-from gym_idsgame.experiments.util import plotting_util, util
+from gym_idsgame.experiments.util import util
 
 
 def get_script_path():
@@ -29,12 +29,12 @@ def default_config() -> ClientConfig:
     :return: Default configuration for the experiment
     """
     q_agent_config = QAgentConfig(gamma=0.999, alpha=0.05, epsilon=1, render=False, eval_sleep=0.9,
-                                  min_epsilon=0.01, eval_episodes=10, train_log_frequency=10,
+                                  min_epsilon=0.01, eval_episodes=5, train_log_frequency=10,
                                   epsilon_decay=0.9999, video=True, eval_log_frequency=10,
                                   video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=10001,
                                   eval_render=False, gifs=True, gif_dir=default_output_dir() + "/gifs",
                                   eval_frequency=5000, attacker=True, defender=True,
-                                  video_frequency=101,
+                                  video_frequency=101,checkpoint_freq= 100,
                                   save_dir=default_output_dir() + "/data")
     env_name = "idsgame-cyber-v0"
     client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,

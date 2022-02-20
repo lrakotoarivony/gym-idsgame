@@ -115,3 +115,4 @@ class Simulator:
         result.hack_probability.append(self.env.hack_probability())
         result.attacker_cumulative_reward.append(self.env.state.attacker_cumulative_reward)
         result.defender_cumulative_reward.append(self.env.state.defender_cumulative_reward)
+        result.attacker_wins.append(self.env.state.num_hacks)
