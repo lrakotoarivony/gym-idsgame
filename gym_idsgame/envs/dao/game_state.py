@@ -370,7 +370,7 @@ class GameState():
         if attack_type == 2:
             return simulate_attack_password(self.attack_values[attacked_node_id][attack_type],self.defense_values[attacked_node_id][attack_type])
         if attack_type == 3:
-            return simulate_attack_stego(self.attack_values[attacked_node_id][attack_type])
+            return simulate_attack_stego()
         #return self.attack_values[attacked_node_id][attack_type] > self.defense_values[attacked_node_id][attack_type]
 
     def simulate_detection(self, node_id: int, reconnaissance: bool, reconnaissance_detection_factor : float = 1) -> bool:

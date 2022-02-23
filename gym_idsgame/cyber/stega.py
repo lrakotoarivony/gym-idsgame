@@ -32,9 +32,9 @@ def defend_stega(img_source,img_dest,password="password"):
         img2 = stepic.encode(img,bytes(password, encoding = "utf-8"))
         img2.save(img_dest,'PNG')
         
-def attack_stega(img_source,strength):
+def attack_stega(img_source):
     list_method = ['string','exif','stepic']
-    attacks = random.sample(list_method, min(2,strength+1))
+    attacks = random.sample(list_method, 1)
     guess = ''
     for attack in attacks:
         if attack == 'string':
@@ -59,7 +59,7 @@ def attack_stega(img_source,strength):
                 guess = re.split('{|}', result)[1]
     return guess
 
-def simulate_attack_stego(attack,img_source = "/home/kali/Documents/projet_3A/gym-idsgame/gym_idsgame/cyber/ressources/test.png",img_dest = "/home/kali/Documents/projet_3A/gym-idsgame/gym_idsgame/cyber/ressources/test_secret.png",password = "password"):
+def simulate_attack_stego(img_source = "/home/kali/Documents/projet_3A/gym-idsgame/gym_idsgame/cyber/ressources/test.png",img_dest = "/home/kali/Documents/projet_3A/gym-idsgame/gym_idsgame/cyber/ressources/test_secret.png",password = "password"):
     defend_stega(img_source,img_dest,password)
-    guess = attack_stega(img_dest,attack)
+    guess = attack_stega(img_dest)
     return guess == password
