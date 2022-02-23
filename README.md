@@ -16,6 +16,10 @@ Sommaire
 
 
 ## Requirements
+
+Ce projet a été réalisé avec un environnement Linux et plus précisément avec une distribution Kali Linux. Il peut être plus facile de réaliser l'installation sur une distribution similaire.  
+
+
 - Python 3.5+
 - OpenAI Gym
 - NumPy
@@ -39,7 +43,8 @@ pip install -e .
 ```
 
 ## Usage
-TO DO
+
+Dans le dossier simulation, lancer les entrainements avec les scripts training_tabular.py et training_dqn.py. Des modèles sont disponibles (seront) dans le dossier modèle. Ces modèles peuvent servir à simuler des itérations pour les scripts simulation_tabular.py et simulation_dqn.py.
 
 ## Future Work
 TO DO
