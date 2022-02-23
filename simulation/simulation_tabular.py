@@ -24,7 +24,7 @@ def default_config() -> ClientConfig:
     simulation_config = SimulationConfig(render=True, sleep=0.8, video=False, log_frequency=1,
                                          video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=10,
                                          gifs=False, gif_dir=default_output_dir() + "/gifs", video_frequency = 1)
-    q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/data/1645446154.1411295_attacker_q_table.npy",defender_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/data/1645446154.1411295_defender_q_table.npy")
+    q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/gym-idsgame/simulation/data/1645446154.1411295_attacker_q_table.npy",defender_load_path="/home/kali/Documents/projet_3A/gym-idsgame/cyber/data/1645446154.1411295_defender_q_table.npy")
     env_name = "idsgame-cyber-v0"
     #AgentType.RANDOM.value
     #AgentType.DEFEND_MINIMAL_VALUE.value
@@ -33,7 +33,7 @@ def default_config() -> ClientConfig:
                                  simulation_config=simulation_config, output_dir=default_output_dir(),
                                  title="TabularQAgentAttacker vs TabularQAgentDefender",
                                  q_agent_config=q_agent_config)'''
-    client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.ATTACK_MAXIMAL_VALUE.value,
+    client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,
                                  defender_type=AgentType.DEFEND_MINIMAL_VALUE.value, mode=RunnerMode.SIMULATE.value,
                                  simulation_config=simulation_config, output_dir=default_output_dir(),
                                  title="TabularQAgentAttacker vs TabularQAgentDefender",

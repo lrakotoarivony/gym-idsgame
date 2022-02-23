@@ -27,11 +27,11 @@ Pourcentage de réussite de l'attaque en fonction des niveaux d'attaque et de d�
 |---    |:-:    |:-:    |--:    |
 |  0     |  33     |  33     |  33     |
 |   1    |  66     |  66     |  66     |
-|    2   |  100     |  100     |  100     |
+|    2   |  66     |  66     |  66     |
 
 Temps d'exécution moyen d'une attaque en fonction des niveaux d'attaque et de défense en secondes
 | Défense / Attaque      |   0     |  1     |   2    |
 |---    |:-:    |:-:    |--:    |
 |  0     |  0.07     |  0.07     |  0.07     |
 |   1    |  0.09     |  0.09     |  0.09     |
-|    2   |  0.13     |  0.13     |  0.13     |
+|    2   |  0.10     |  0.10     |  0.10     |

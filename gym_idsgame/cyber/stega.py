@@ -34,7 +34,7 @@ def defend_stega(img_source,img_dest,password="password"):
         
 def attack_stega(img_source,strength):
     list_method = ['string','exif','stepic']
-    attacks = random.sample(list_method, min(len(list_method),strength+1))
+    attacks = random.sample(list_method, min(2,strength+1))
     guess = ''
     for attack in attacks:
         if attack == 'string':
