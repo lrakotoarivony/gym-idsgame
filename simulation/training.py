@@ -14,7 +14,7 @@ import time
 def define_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dqn', action='store_true')
-    parser.add_argument('--num_episodes', type=int, default = 200001)
+    parser.add_argument('--num_episodes', type=int, default = 20001)
     parser.add_argument('--checkpoint_freq', type=int, default = 500)
 
     args = parser.parse_args()
