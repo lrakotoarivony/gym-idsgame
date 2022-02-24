@@ -30,12 +30,6 @@ def default_config() -> ClientConfig:
     """
     :return: Default configuration for the experiment
     """
-    '''dqn_config = DQNConfig(input_dim=242, attacker_output_dim=220, defender_output_dim=242, hidden_dim=64,
-                           replay_memory_size=10000,
-                           num_hidden_layers=1,
-                           replay_start_size=1000, batch_size=32, target_network_update_freq=1000,
-                           gpu=False, tensorboard=False, tensorboard_dir=default_output_dir() + "/results/tensorboard",
-                           loss_fn="Huber", optimizer="Adam", lr_exp_decay=True, lr_decay_rate=0.9999)'''
     dqn_config = DQNConfig(input_dim=40, attacker_output_dim=32, defender_output_dim=40, hidden_dim=16,
                            replay_memory_size=10000,
                            num_hidden_layers=1,

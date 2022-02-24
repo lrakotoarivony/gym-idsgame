@@ -30,9 +30,9 @@ def default_config() -> ClientConfig:
     """
     q_agent_config = QAgentConfig(gamma=0.999, alpha=0.05, epsilon=1, render=False, eval_sleep=0.9,
                                   min_epsilon=0.01, eval_episodes=5, train_log_frequency=10,
-                                  epsilon_decay=0.9999, video=True, eval_log_frequency=10,
+                                  epsilon_decay=0.9999, video=False, eval_log_frequency=10,
                                   video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=20001,
-                                  eval_render=False, gifs=True, gif_dir=default_output_dir() + "/gifs",
+                                  eval_render=False, gifs=False, gif_dir=default_output_dir() + "/gifs",
                                   eval_frequency=5000, attacker=True, defender=True,
                                   video_frequency=1000,checkpoint_freq= 500,
                                   save_dir=default_output_dir() + "/data")
@@ -51,10 +51,6 @@ if __name__ == '__main__':
     config = default_config()
     time_str = str(time.time())
     util.create_artefact_dirs(config.output_dir,0)
-    logger = util.setup_logger("cyber_vs_cyber-v0", config.output_dir + "/results/logs/",time_str=time_str)
-    config.logger = logger
-    config.q_agent_config.logger = logger
-    config.q_agent_config.to_csv(config.output_dir + "/results/hyperparameters/" + time_str + ".csv")
     train_result, eval_result = Runner.run(config)
 
 
