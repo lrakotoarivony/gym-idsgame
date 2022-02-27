@@ -149,6 +149,7 @@ class GameState():
         v_val = vulnerability_val
 
         vulnerabilities_per_layer = np.zeros((network_config.num_rows, network_config.num_cols))
+        np.random.seed(0)
         for row in range(1, network_config.num_rows-1):
             vulnerabilities = np.random.choice(network_config.num_cols, size=num_vulnerabilities_per_layer,
                                                replace=False)
