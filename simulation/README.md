@@ -1,223 +1,78 @@
-# Experiment `tabular_q_learning`_`tabular_q_learning` v5
+# Experiment `Cybersecurity` v0
 
-This is an experiment in the `idsgame-v5` environment. 
-An environment where neither the attacker nor defender is part of the environment, i.e.
-it is intended for 2-agent simulations or RL training.
+Cela est une expérimentation de l'environnement `idsgame-cyber-v0`.  
+Cet environnement est dédié à des simulations à 1 ou 2 agents ou des entrainements de RL.
 
-The network configuration of the environment is as follows:
+La configuration de l'environnement est la suivante:  
 
-- `num_layers=4` (number of layers between the start and end nodes)
-- `num_servers_per_layer=5`
-- `num_attack_types=10`
-- `max_value=9`  
+- `num_layers=2` (number of layers between the start and end nodes)
+- `num_servers_per_layer=3`
+- `num_attack_types=4`
+- `max_value=3`  
 - `connected_layers = True`
+
+Les attaques types sont les suivantes (cf dossier cyber pour plus d'infos) [attaque par injection de fichier, déchiffrage d'un hash, attaque sur mdp, détection de stégano dans une image]
 
 <p align="center">
 <img src="docs/env.png" width="700">
 </p>
 
-The starting state for each node in the environment is initialized as follows (with some randomness for where the vulnerabilities are placed).
+L'environnement de départ est initialisé de manière définie (introduire de l'aléatoire dans le placement des vulnérabilités n'est pas souhaitable car les attaques ne sont pas transposables).  
 
-- `defense_val=2`
+- `defense_val=1`
 - `attack_val=0`
-- `num_vulnerabilities_per_node=1` (which type of defense at the node that is vulnerable is selected randomly when the environment is initialized)
+- `num_vulnerabilities_per_node=1`  
 - `det_val=2`
 - `vulnerability_val=0`
 - `num_vulnerabilities_per_layer=2` 
 
-The environment has sparse rewards (+1,-1 rewards are given at the terminal state of each episode).
- The environment is partially observed (attacker can only see attack attributes of neighboring nodes, defender can only see defense attributes)
+l'environnement a des rewards discrètes (+1,-1 en fonction de la fin de chaque épisode).
 
 ## Environment 
 
-- Env: `idsgame-v5`
+- Env: `idsgame-cyber-v0`
 
 ## Algorithm
 
-- Tabular Q-learning with linear exploration annealing 
+- Tabular Q-learning ou DQN
  
-## Instructions 
-
-To configure the experiment use the `config.json` file. Alternatively, 
-it is also possible to delete the config file and edit the configuration directly in
-`run.py` (this will cause the configuration to be overridden on the next run). 
-
-Example configuration in `config.json`:
-
-```json
-{
-    "attacker_type": 0,
-    "defender_type": 0,
-    "env_name": "idsgame-v5",
-    "idsgame_config": null,
-    "initial_state_path": null,
-    "logger": null,
-    "mode": 5,
-    "output_dir": "/home/kim/storage/workspace/gym-idsgame/experiments/training/v5/two_agents/tabular_q_learning",
-    "py/object": "gym_idsgame.config.client_config.ClientConfig",
-    "q_agent_config": {
-        "alpha": 0.05,
-        "attacker": true,
-        "defender": true,
-        "epsilon": 1,
-        "epsilon_decay": 0.9999,
-        "eval_episodes": 100,
-        "eval_frequency": 5000,
-        "eval_log_frequency": 1,
-        "eval_render": false,
-        "eval_sleep": 0.9,
-        "gamma": 0.99,
-        "gif_dir": "/home/kim/storage/workspace/gym-idsgame/experiments/training/v5/two_agents/tabular_q_learning/gifs",
-        "gifs": true,
-        "load_path": null,
-        "logger": null,
-        "min_epsilon": 0.01,
-        "num_episodes": 40001,
-        "py/object": "gym_idsgame.agents.tabular_q_learning.q_agent_config.QAgentConfig",
-        "render": false,
-        "save_dir": "/home/kim/storage/workspace/gym-idsgame/experiments/training/v5/two_agents/tabular_q_learning/data",
-        "train_log_frequency": 1,
-        "video": true,
-        "video_dir": "/home/kim/storage/workspace/gym-idsgame/experiments/training/v5/two_agents/tabular_q_learning/videos",
-        "video_fps": 5,
-        "video_frequency": 101
-    },
-    "simulation_config": null,
-    "title": "TrainingQAgent vs TrainingQAgent"
-}
-```
-
-Example configuration in `run.py`:
-
-```python
-q_agent_config = QAgentConfig(gamma=0.999, alpha=0.05, epsilon=1, render=False, eval_sleep=0.9,
-                              min_epsilon=0.01, eval_episodes=100, train_log_frequency=1,
-                              epsilon_decay=0.9999, video=True, eval_log_frequency=1,
-                              video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=40001,
-                              eval_render=False, gifs=True, gif_dir=default_output_dir() + "/gifs",
-                              eval_frequency=5000, attacker=True, defender=True,
-                              video_frequency=101,
-                              save_dir=default_output_dir() + "/data")
-env_name = "idsgame-v5"
-client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,
-                             defender_type=AgentType.TABULAR_Q_AGENT.value,
-                             mode=RunnerMode.TRAIN_DEFENDER_AND_ATTACKER.value,
-                             q_agent_config=q_agent_config, output_dir=default_output_dir(),
-                             title="TrainingQAgent vs TrainingQAgent")
-```
-
-After the experiment has finished, the results are written to the following sub-directories:
-
-- **/data**: CSV file with metrics per episode for train and eval, e.g. `avg_episode_rewards`, `avg_episode_steps`, etc.
-- **/gifs**: If the gif configuration-flag is set to true, the experiment will render the game during evaluation and save gif files to this directory. You can control the frequency of evaluation with the configuration parameter `eval_frequency` and the frequency of video/gif recording during evaluation with the parameter `video_frequency`
-- **/hyperparameters**: CSV file with hyperparameters for the experiment.
-- **/logs**: Log files from the experiment
-- **/plots**: Basic plots of the results
-- **/videos**: If the video configuration-flag is set to true, the experiment will render the game during evaluation and save video files to this directory. You can control the frequency of evaluation with the configuration parameter `eval_frequency` and the frequency of video/gif recording during evaluation with the parameter `video_frequency`
-  
-
-## Example Results
-
-### Hack probability
-
-#### Train
-
-<p align="center">
-<img src="docs/hack_probability_train.png" width="800">
-</p>
-
-#### Eval
-
-<p align="center">
-<img src="docs/hack_probability_eval.png" width="800">
-</p>
-
-### Episode lengths
-
-#### Train
-<p align="center">
-<img src="docs/avg_episode_lengths_train.png" width="800">
-</p>
-
-#### Eval
-
-<p align="center">
-<img src="docs/avg_episode_lengths_eval.png" width="800">
-</p>
-
-### Exploration Rate
-
-<p align="center">
-<img src="docs/epsilon_train.png" width="800">
-</p>
-
-### Cumulative Rewards
-
-#### Attacker (Train)
-<p align="center">
-<img src="docs/attacker_cumulative_reward_train.png" width="800">
-</p>
-
-#### Defender (Train)
-<p align="center">
-<img src="docs/defender_cumulative_reward_train.png" width="800">
-</p>
-
-### Policy Inspection
-
-#### Evaluation after 0 Training Episodes
-
-<p align="center">
-<img src="docs/episode_0.gif" width="700">
-</p> 
-
-#### Evaluation after 5000 Training Episodes
-
-<p align="center">
-<img src="docs/episode_5000.gif" width="700">
-</p>  
-
-#### Evaluation after 40000 Training Episodes
-
-<p align="center">
-<img src="docs/episode_40000.gif" width="700">
-</p>  
-
 ## Commands
 
-Below is a list of commands for running the experiment
+Le script permettant l'entrainement est le script training.py
 
-### Run
+Voici un exemple d'utilisation ainsi que ses arguments
 
-**Option 1**:
-```bash
-./run.sh
+```
+python training.py --num_episodes 100 --checkpoint_freq 10 --dqn --attacker_only
 ```
 
-**Option 2**:
-```bash
-make all
-```
+Ce script contient plusieurs arguments:  
 
-**Option 3**:
-```bash
-python run.py
-```
-### Run Server (Without Display)
+- num_episodes : nombres d'epoch d'entrainements
+- checkpoint_freq :  la fréquence de sauvegarde et d'évaluation
+- dqn : si dqn ou tabular learning
+- attacker_only : seulement entrainement de l'attaquant
+- defender_only : seulement entrainement du défenseur  
 
-**Option 1**:
-```bash
-./run_server.sh
-```
+## Analyse et test  
 
-**Option 2**:
-```bash
-make run_server
-```
+Cette simulation diffère de la simulation originale sur plusieurs points. Tout d'abord, contrairement à la version originelle chaque attaque possède des probabilités de succès différentes (voir dossier cyber dans l'env gym-idsgame). Cela a pour effet d'introduire de l'aléatoire et ainsi de créer des stratégies complexe qui dépendent des choix des algorithmes.   
+Une version antérieure des attaques par stéganographie avait pour résultat que l'attaquant pouvait en augmentant au maximum son niveau d'attaque sur l'attaque de stégano de passer à 100%. Cela représente une stratégie gagnante et les modèles d'attaquant que j'entrainais dans cette situation tendait vers cette stratégie. Cela démontre que les algorithmes réussisent à trouver une stratégie gagnante si elle est simple. Cependant, dans ce cas, le défenseur faisait des actions randoms car peu importe ses mouvements cela menaient à une défaite. La simulation fut donc changé pour rendre cela plus réaliste.  
 
-### Clean
+Un travail a également été fait sur l'environnement afin que cela soit équilibré pour l'attaquant et le défenseur. Nous allons introduire une metric nommé la hack probability qui utilise le fichier simulation.py pour réaliser 100 simulations et la hack probability représente le pourcentage de victoire de l'attaquant. On comprend aisément que le but de l'attaquant est de maximiser cette métric et inversement pour le défenseur.  
+L'environnement a donc été testé via des modifications et actuellement en opposant l'attaque Attack Maximal Value (AMV) et la défense Defend Minimal Value (DMV), on obtient une hack probability de 0.55.  
 
-```bash
-make clean
-```
+### Méthodes par apprentissage vs méthodes définies:  
 
+Dans un premier temps, nous souhaitons démontrer que les méthodes par apprentissage peuvent facilement dans cette simulation, obtenir de meilleures performances que des méthodes définies comme AMV ou DMV. Pour cela, nous avons entrainé 2 modèles de tabular q learning (présent dans le dossier modèle sous le nom d'attacker_only_new_env.npy (respectivement defender_only_new_env.npy)) sur 20001 épisodes face à DMV (respectivement AMV). Nous avons ensuite calculé la hack probability de ces confrontations.  
+
+On obtient donc en résultat:  
+- AMV vs DMV : 0.55
+- Tabular Q Learning vs DMV : 0.53
+- AMV vs Tabular Q Learning : 0.63
+
+Cela démontre que les méthodes par apprentissage obtiennent de meilleurs résultats. En effet, cela s'explique car les méthodes AMV et DMV sont très pertinente dans la simulation de base car chaque attaque se comporte de la même manière. Dans notre simulation, où les attaques sont différentes il est par exemple inutile d'investir des ressources dans les attaques par stéganographie (comportement statique avec toujours 33% de chance de passer peu importe les niveaux.  
+
+### Comparaison des méthodes d'apprentissage:  
+
+(TO DO)
