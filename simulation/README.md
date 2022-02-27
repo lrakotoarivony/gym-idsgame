@@ -68,8 +68,8 @@ Dans un premier temps, nous souhaitons démontrer que les méthodes par apprenti
 
 On obtient donc en résultat:  
 - AMV vs DMV : 0.55
-- Tabular Q Learning vs DMV : 0.53
-- AMV vs Tabular Q Learning : 0.63
+- Tabular Q Learning vs DMV : 0.63
+- AMV vs Tabular Q Learning : 0.53
 
 Cela démontre que les méthodes par apprentissage obtiennent de meilleurs résultats. En effet, cela s'explique car les méthodes AMV et DMV sont très pertinente dans la simulation de base car chaque attaque se comporte de la même manière. Dans notre simulation, où les attaques sont différentes il est par exemple inutile d'investir des ressources dans les attaques par stéganographie (comportement statique avec toujours 33% de chance de passer peu importe les niveaux.  
 
