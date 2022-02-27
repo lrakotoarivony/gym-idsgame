@@ -16,6 +16,8 @@ def define_args():
     parser.add_argument('--dqn', action='store_true')
     parser.add_argument('--num_episodes', type=int, default = 20001)
     parser.add_argument('--checkpoint_freq', type=int, default = 500)
+    parser.add_argument('--attacker_only', action='store_true')
+    parser.add_argument('--defender_only', action='store_true')
 
     args = parser.parse_args()
     return args
@@ -34,6 +36,35 @@ def default_config(args) -> ClientConfig:
     """
     output_dir = default_output_dir()
     env_name = "idsgame-cyber-v0"
+    if(args.attacker_only and not args.defender_only):
+        if args.dqn:
+            attacker_type = AgentType.DQN_AGENT.value
+        else:
+            attacker_type = AgentType.TABULAR_Q_AGENT.value
+        defender_type = AgentType.DEFEND_MINIMAL_VALUE.value
+        mode = RunnerMode.TRAIN_ATTACKER.value
+        attacker = True
+        defender = False
+    elif(args.defender_only and not args.attacker_only):
+        if args.dqn:
+            defender_type = AgentType.DQN_AGENT.value
+        else:
+            defender_type = AgentType.TABULAR_Q_AGENT.value
+        attacker_type = AgentType.ATTACK_MAXIMAL_VALUE.value
+        mode = RunnerMode.TRAIN_DEFENDER.value
+        attacker = False
+        defender = True
+    else:
+        if args.dqn:
+            attacker_type = AgentType.DQN_AGENT.value
+            defender_type = AgentType.DQN_AGENT.value
+        else:
+            attacker_type = AgentType.TABULAR_Q_AGENT.value
+            defender_type = AgentType.TABULAR_Q_AGENT.value
+        mode = RunnerMode.TRAIN_DEFENDER_AND_ATTACKER.value
+        attacker = True
+        defender = True
+
     if(args.dqn):
         dqn_config = DQNConfig(input_dim=40, attacker_output_dim=32, defender_output_dim=40, hidden_dim=16,
                            replay_memory_size=10000,
@@ -46,28 +77,24 @@ def default_config(args) -> ClientConfig:
                                     epsilon_decay=0.9999, video=False, eval_log_frequency=1,
                                     video_fps=5, video_dir=output_dir + "/results/videos", num_episodes=args.num_episodes,
                                     eval_render=False, gifs=False, gif_dir=output_dir + "/results/gifs",
-                                    eval_frequency=1000, attacker=True, defender=True, video_frequency=101,
+                                    eval_frequency=1000, attacker=attacker, defender=defender, video_frequency=101,
                                     save_dir=output_dir + "/results/data", dqn_config=dqn_config,
                                     checkpoint_freq=args.checkpoint_freq)
-        client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.DQN_AGENT.value,
-                                    defender_type=AgentType.DQN_AGENT.value,
-                                    mode=RunnerMode.TRAIN_DEFENDER_AND_ATTACKER.value,
-                                    q_agent_config=q_agent_config, output_dir=output_dir,
-                                    title="TrainingDQNAgent vs TrainingDQNAgent")
     else:
         q_agent_config = QAgentConfig(gamma=0.999, alpha=0.05, epsilon=1, render=False, eval_sleep=0.9,
                                     min_epsilon=0.01, eval_episodes=5, train_log_frequency=10,
                                     epsilon_decay=0.9999, video=False, eval_log_frequency=10,
                                     video_fps=5, video_dir=output_dir + "/videos", num_episodes=args.num_episodes,
                                     eval_render=False, gifs=False, gif_dir=output_dir + "/gifs",
-                                    eval_frequency=5000, attacker=True, defender=True,
+                                    eval_frequency=5000, attacker=attacker, defender=defender,
                                     video_frequency=1000,checkpoint_freq= args.checkpoint_freq,
                                     save_dir=output_dir + "/data")
-        client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,
-                                    defender_type=AgentType.TABULAR_Q_AGENT.value,
-                                    mode=RunnerMode.TRAIN_DEFENDER_AND_ATTACKER.value,
-                                    q_agent_config=q_agent_config, output_dir=output_dir,
-                                    title="TrainingQAgent vs TrainingQAgent")
+
+    client_config = ClientConfig(env_name=env_name, attacker_type=attacker_type,
+                                defender_type=defender_type,
+                                mode=mode,
+                                q_agent_config=q_agent_config, output_dir=output_dir,
+                                title="TrainingQAgent vs TrainingQAgent")
 
     return client_config
 
