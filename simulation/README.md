@@ -75,4 +75,25 @@ Cela démontre que les méthodes par apprentissage obtiennent de meilleurs résu
 
 ### Comparaison des méthodes d'apprentissage:  
 
-(TO DO)
+Dans cette partie, nous allons nous intéresser aux deux simulations suivantes. La première opposera 2 algorithmes de tabular learning et la deuxième 2 algorithmes de type DQN. A savoir que chaque paire d'attaquant et de défenseur se sont entrainés simultanément sur 20000 épisodes et que l'on va maintenant s'intéresser à leur confrontation sur 100 confrontations.  
+L'environnement est toujours le même que dans les expériences précédentes. Il est important de préciser que nous n'avons pas effectué d'optimisation sur les hyperparamètres donc il est fort probable que les modèles ne soient pas optimaux.
+
+#### Tabular Q Learning vs Tabular Q Learning  
+
+Les 2 modèles ayant permis cette simulation sont disponible dans le dossier model sous le nom attacker_tabular.npy et defender_tabular.npy. Ces 2 modèles se sont affrontés sur 100 épisodes et on obtient une hack probability de 0.2. Cela démontre que le défenseur devient vraiment performant dans cette configuration.  
+
+On observe tout d'abord que l'attaquant choisit de concentrer ses attaques sur le coté droit de l'environnement, cela est peut être du au fait que la plupart des vulnérabilités sont majoritairement présentes sur le coté droit et le milieu de la simulation.  
+On remarque ensuite que l'attaquant choisit systématiquement comme cible d'attaque les valeurs correspondant soit à l'injection de fichier, soit à l'attaque par hashing. Cela se comprend aisément car ce sont les 2 attaques où l'attaquant peut obtenir un pourcentage élevé de succès. En effet, l'attaque sur MDP a très souvent des probabilités faibles de succès et l'attaque par stéganographie aura toujours 33% de chance de succès ce qui est assez faible.  
+On remarque finalement que l'attaquant effectue une sorte de zigzag, ce comportement n'a pas trouvé d'explication il pourrait être intéressant de s'y intéresser pour le futur.  
+
+Le défenseur quant à lui effectue toujours la même action au départ. Il augmente au maximum le niveau de détection sur le noeud Server ce qui indique qu'il comprend l'importance de ce noeud.  
+On remarque également qu'il n'augmente jamais les valeurs de défense sur le vecteur de type stéganographie car cela n'aura aucun effet sur le déroulement de l'attaque.  
+Enfin, on remarque qu'il choisit de concentrer sa défense sur le coté droit de la simulation, il n'est pas vérifié si cela est à cause du nombre de vulnérabilités ou si car l'attaquant choisit souvent de passer par là.  
+
+#### DQN vs DQN  
+
+Les 2 modèles ayant permis cette simulation sont disponible dans le dossier model sous le nom attacker_dqn.pt et defender_dqn.pt. Ces 2 modèles se sont affrontés sur 100 épisodes et on obtient une hack probability de 0.22. Cela démontre que le défenseur devient vraiment performant dans cette configuration comme dans l'expérience précédente. De plus, cela prouve bien que le défenseur a clairement l'avantage dans cette simulation.  
+
+Concernant l'attaquant, on retrouve beaucoup de similarités dans le comportement du DQN Attaquant et du Tabular Q Learning Attaquant, en effet ces deux algorithmes effectuent le même mouvement de zigzag pour se déplacer, privilégient le coté droit et attaquent sur les mêmes failles.  
+
+Le défenseur quant à lui commence également comme le Tabular Q Learning défenseur en augmentant la détection sur le noeud Server. Par la suite, leur stratégie diverge car le DQN choisit de parcourir l'environnement et d'augmenter le niveau de détection pour ensuite augmenter le niveau de sécurité. On remarque que cette fois, le défenseur parcours tout le modèle et ne se concentre pas uniquement sur le coté droit de l'environnement.
