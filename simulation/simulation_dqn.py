@@ -38,12 +38,12 @@ def default_config() -> ClientConfig:
                            gpu=False, tensorboard=False, tensorboard_dir=default_output_dir() + "/results/tensorboard",
                            loss_fn="Huber", optimizer="Adam", lr_exp_decay=True, lr_decay_rate=0.9999)
 
-    q_agent_config = QAgentConfig(gamma=0.999, alpha=0.00001, epsilon=1, render=False, eval_sleep=0.9,
-                                  min_epsilon=0.01, eval_episodes=2, train_log_frequency=100,
+    q_agent_config = QAgentConfig(gamma=0.999, alpha=0.00001, epsilon=1, render=True, eval_sleep=0.9,
+                                  min_epsilon=0.01, eval_episodes=100, train_log_frequency=100,
                                   epsilon_decay=0.9999, video=True, eval_log_frequency=1,
                                   video_fps=5, video_dir=default_output_dir() + "/results/videos", num_episodes=20001,
                                   eval_render=False, gifs=True, gif_dir=default_output_dir() + "/results/gifs",
-                                  eval_frequency=1000, attacker=True, defender=True, video_frequency=101,
+                                  eval_frequency=1000, attacker=True, defender=True, video_frequency=1,
                                   save_dir=default_output_dir() + "/results/data", dqn_config=dqn_config,
                                   checkpoint_freq=5000)
     env_name = "idsgame-cyber-v0"
@@ -73,15 +73,15 @@ if __name__ == '__main__':
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
     agent = DQNAgent(env, config.q_agent_config)
-
-    agent.attacker_q_network.load_state_dict(torch.load("/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/results/data/1643884050.5795374_attacker_q_network.pt"))
+    
+    agent.attacker_q_network.load_state_dict(torch.load('/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/results/data/1646063764.165759_attacker_q_network.pt'))
     agent.attacker_q_network.eval()
 
-    agent.defender_q_network.load_state_dict(torch.load("/home/kali/Documents/projet_3A/gym-idsgame/cyber/simulation/results/data/1643884050.5795374_defender_q_network.pt"))
+    agent.defender_q_network.load_state_dict(torch.load('/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/results/data/1646063764.165759_defender_q_network.pt'))
     agent.defender_q_network.eval()
 
 
-    agent.eval(0,log=False)
+    agent.eval(0,log=True)
 
 
 

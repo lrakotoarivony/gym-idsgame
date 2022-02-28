@@ -25,7 +25,7 @@ def default_config() -> ClientConfig:
                                          video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=100,
                                          gifs=False, gif_dir=default_output_dir() + "/gifs", video_frequency = 1)
     #q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/gym-idsgame/simulation/model/attacker_tabular.npy",defender_load_path="/home/kali/Documents/projet_3A/gym-idsgame/simulation/model/defender_tabular.npy")
-    #q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/model/attacker_only_new_env.npy",defender_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/model/defender_only_new_env.npy")
+    q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/model/attacker_only_new_env.npy",defender_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/model/defender_only_new_env.npy")
     q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/data/1645972683.2612665_attacker_q_table.npy",defender_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/data/1645972683.2612665_defender_q_table.npy")
 
 
@@ -68,9 +68,9 @@ if __name__ == '__main__':
     util.create_artefact_dirs(config.output_dir,1)
     logger = util.setup_logger("idsgame-v0-tabular_q_agent_vs_tabular_q_agent", config.output_dir + "/results/logs/",
                                time_str=time_str)
-    config.logger = logger
-    config.simulation_config.logger = logger
-    config.simulation_config.to_csv(config.output_dir + "/results/hyperparameters/" + time_str + ".csv")
+    #config.logger = logger
+    #config.simulation_config.logger = logger
+    #config.simulation_config.to_csv(config.output_dir + "/results/hyperparameters/" + time_str + ".csv")
     result = Runner.run(config)
     print(result.attacker_wins)
     print(f'Number of attack victory in 10 episodes: {result.attacker_wins[-1]}')
