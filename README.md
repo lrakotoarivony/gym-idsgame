@@ -21,7 +21,7 @@ Sommaire
 
 ## Requirements
 
-Ce projet a été réalisé avec un environnement Linux et plus précisément avec une distribution Kali Linux. Il peut être plus facile de réaliser l'installation sur une distribution similaire.  
+Ce projet a été réalisé avec un environnement Linux et plus précisément avec une distribution Kali Linux. Il peut être plus aisé de réaliser l'installation sur une distribution similaire.  
 
 
 - Python 3.5+
@@ -48,7 +48,13 @@ pip install -e .
 
 ## Usage
 
-Dans le dossier simulation, lancer les entrainements avec les scripts training_tabular.py et training_dqn.py. Des modèles sont disponibles (seront) dans le dossier modèle. Ces modèles peuvent servir à simuler des itérations pour les scripts simulation_tabular.py et simulation_dqn.py.
+Voir le dossier simulation
 
 ## Future Work
-TO DO
+
+Les pistes suivantes n'ont pas été exploré par manque de temps. Il peut être intéressant de les étudier par le futur pour améliorer la simulation.  
+
+- Optimisation des entraînements via de la recherche sur hyperparamètres
+- Confronter les différents algorithmes afin d'opposer les stratégies et trouver la stratégie optimale
+- Modifier l'environnement et étudier son influence
+- Rajouter des attaques de cybersécurité (IP Spoofing via Scapy, obfuscation, phising via mail, etc...)
