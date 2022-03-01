@@ -4,7 +4,11 @@ Ce projet découle du projet du Github suivant https://github.com/Limmen/gym-ids
 La contribution de ce github par rapport au github précédent est l'implémentation d'attaques de cybersécurité tel que le craquage de mot de passe, de la stéganographie et du craquage de hash ou l'injection de fichier dans un serveur.
 
 Les entraînements et simulations sont présents dans le dossier simulation et chaque attaque de cybersécurité est détaillé précisément à l'aide d'un Notebook et d'un Readme dans le dossier gym-idsgame/cyber/test.  
-L'intérêt de ce projet est de combiner de manière pertinente la cybersécurité et l'intelligence artificielle.
+L'intérêt de ce projet est de combiner de manière pertinente la cybersécurité et l'intelligence artificielle.   
+
+<p align="center">
+<img src="docs/simu_dqn_vs_dqn_final.gif" width="600">
+</p>
 
 Sommaire
 =================
