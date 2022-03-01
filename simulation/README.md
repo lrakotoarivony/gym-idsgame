@@ -14,7 +14,7 @@ La configuration de l'environnement est la suivante:
 Les attaques types sont les suivantes (cf dossier cyber pour plus d'infos) [attaque par injection de fichier, déchiffrage d'un hash, attaque sur mdp, détection de stégano dans une image]
 
 <p align="center">
-<img src="docs/env.png" width="700">
+<img src="../docs/env.png" width="700">
 </p>
 
 L'environnement de départ est initialisé de manière définie (introduire de l'aléatoire dans le placement des vulnérabilités n'est pas souhaitable car les attaques ne sont pas transposables).  
