@@ -104,11 +104,11 @@ On obtient donc en résultat:
 - Tabular Q Learning vs DMV : 0.63
 - AMV vs Tabular Q Learning : 0.53
 
-Cela démontre que les méthodes par apprentissage obtiennent de meilleurs résultats. En effet, cela s'explique car les méthodes AMV et DMV sont très pertinente dans la simulation de base car chaque attaque se comporte de la même manière. Dans notre simulation, où les attaques sont différentes il est par exemple inutile d'investir des ressources dans les attaques par stéganographie (comportement statique avec toujours 33% de chance de passer peu importe les niveaux.  
+Cela démontre que les méthodes par apprentissage obtiennent de meilleurs résultats. En effet, cela s'explique car les méthodes AMV et DMV sont très pertinente dans la simulation de base car chaque attaque se comporte de la même manière. Dans notre simulation, où les attaques sont différentes (inutile d'investir des ressources dans les attaques par stéganographie) ces stratégies heuristiques ne sont pas intéressantes.  
 
 ### Comparaison des méthodes d'apprentissage:  
 
-Dans cette partie, nous allons nous intéresser aux deux simulations suivantes. La première opposera 2 algorithmes de tabular learning et la deuxième 2 algorithmes de type DQN. A savoir que chaque paire d'attaquant et de défenseur se sont entrainés simultanément sur 20000 épisodes et que l'on va maintenant s'intéresser à leur confrontation sur 100 confrontations.  
+Dans cette partie, nous allons nous intéresser aux deux simulations suivantes. La première opposera 2 algorithmes de tabular learning et la deuxième 2 algorithmes de type DQN. A savoir que chaque paire d'attaquant et de défenseur se sont entrainés simultanément sur 20000 épisodes et que l'on va maintenant s'intéresser à leur comportement sur 100 confrontations.  
 L'environnement est toujours le même que dans les expériences précédentes. Il est important de préciser que nous n'avons pas effectué d'optimisation sur les hyperparamètres donc il est fort probable que les modèles ne soient pas optimaux.
 
 #### Tabular Q Learning vs Tabular Q Learning  
