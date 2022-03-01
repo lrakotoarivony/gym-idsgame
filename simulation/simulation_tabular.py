@@ -7,6 +7,7 @@ from gym_idsgame.config.client_config import ClientConfig
 from gym_idsgame.runnner import Runner
 from gym_idsgame.agents.training_agents.q_learning.q_agent_config import QAgentConfig
 from gym_idsgame.experiments.util import plotting_util, util
+import argparse
 
 
 
@@ -17,63 +18,50 @@ def default_output_dir() -> str:
     script_dir = os.path.dirname(__file__)
     return script_dir
 
-def default_config() -> ClientConfig:
+def define_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--attacker_path', type=str,default='')
+    parser.add_argument('--defender_path', type=str,default='')
+    parser.add_argument('--num_episodes', type=int, default = 100)
+    parser.add_argument('--attacker_bot', action='store_true')
+    parser.add_argument('--defender_bot', action='store_true')
+
+    args = parser.parse_args()
+    return args
+
+
+def default_config(args) -> ClientConfig:
     """
     :return: Default configuration for the experiment
     """
     simulation_config = SimulationConfig(render=True, sleep=0.8, video=False, log_frequency=1,
-                                         video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=100,
+                                         video_fps=5, video_dir=default_output_dir() + "/videos", num_episodes=args.num_episodes,
                                          gifs=False, gif_dir=default_output_dir() + "/gifs", video_frequency = 1)
-    #q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/gym-idsgame/simulation/model/attacker_tabular.npy",defender_load_path="/home/kali/Documents/projet_3A/gym-idsgame/simulation/model/defender_tabular.npy")
-    q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/model/attacker_only_new_env.npy",defender_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/model/defender_only_new_env.npy")
-    q_agent_config = QAgentConfig(attacker_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/data/1645972683.2612665_attacker_q_table.npy",defender_load_path="/home/kali/Documents/projet_3A/new/gym-idsgame/simulation/data/1645972683.2612665_defender_q_table.npy")
-
-
+    q_agent_config = QAgentConfig(attacker_load_path=args.attacker_path,defender_load_path=args.defender_path)
+  
     env_name = "idsgame-cyber-v0"
-    #AgentType.RANDOM.value
-    #AgentType.DEFEND_MINIMAL_VALUE.value
-    '''client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,
-                                 defender_type=AgentType.TABULAR_Q_AGENT.value, mode=RunnerMode.SIMULATE.value,
+    attacker_type = AgentType.TABULAR_Q_AGENT.value
+    defender_type = AgentType.TABULAR_Q_AGENT.value
+    if(args.attacker_bot):
+        attacker_type = AgentType.ATTACK_MAXIMAL_VALUE.value
+    if(args.defender_bot):
+        defender_type = AgentType.DEFEND_MINIMAL_VALUE.value
+
+
+    client_config = ClientConfig(env_name=env_name, attacker_type=attacker_type,
+                                 defender_type=defender_type, mode=RunnerMode.SIMULATE.value,
                                  simulation_config=simulation_config, output_dir=default_output_dir(),
-                                 title="TabularQAgentAttacker vs TabularQAgentDefender",
-                                 q_agent_config=q_agent_config)'''
-    #two bots hack proba 0.6
-    #one defender hack proba 0.61
-    #one attacker hack proba 0.53
-    #two learner hack proba 0.49
-
-    #only attacker train 0.57
-    #only defender train 0.51
-
-    #new
-    #two bots hack proba 0.55
-    #one defender hack proba 0.61
-    #one attacker hack proba 0.53
-    #two learner hack proba 0.49
-
-    #only attacker train 0.63
-    #only defender train 0.53 (not true)
-    client_config = ClientConfig(env_name=env_name, attacker_type=AgentType.TABULAR_Q_AGENT.value,
-                                 defender_type=AgentType.TABULAR_Q_AGENT.value, mode=RunnerMode.SIMULATE.value,
-                                 simulation_config=simulation_config, output_dir=default_output_dir(),
-                                 title="TabularQAgentAttacker vs TabularQAgentDefender",
+                                 title="Simulation",
                                  q_agent_config=q_agent_config)
     return client_config
 
 
 # Program entrypoint
 if __name__ == '__main__':
-    config = default_config()
-    time_str = str(time.time())
-    util.create_artefact_dirs(config.output_dir,1)
-    logger = util.setup_logger("idsgame-v0-tabular_q_agent_vs_tabular_q_agent", config.output_dir + "/results/logs/",
-                               time_str=time_str)
-    #config.logger = logger
-    #config.simulation_config.logger = logger
-    #config.simulation_config.to_csv(config.output_dir + "/results/hyperparameters/" + time_str + ".csv")
+    args = define_args()
+    config = default_config(args)
     result = Runner.run(config)
-    print(result.attacker_wins)
-    print(f'Number of attack victory in 10 episodes: {result.attacker_wins[-1]}')
+    print(f'Number of attack victory in {args.num_episodes} episodes: {result.attacker_wins[-1]}')
 
 
 
